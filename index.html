@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+    <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script defer src="assets/js/script.js"></script>
+    <title>Test</title>
+  </head>
+  <body>
+
+    <div class="container pt-5">
+      <?php
+                $connection = mysqli_connect("localhost","root","");
+                $db = mysqli_select_db($connection, 'kalam_test');
+
+                $query = "SELECT clmd.*,ccs.S_DOR, ca.Name FROM crm_lead_master_data clmd, crm_calling_status ccs, crm_admin ca where clmd.Lead_ID=ccs.Lead_ID AND clmd.Caller_ID=ca.Admin_ID";
+                $query_run = mysqli_query($connection, $query);
+            ?>
+                    <table id="example" class="display table table-bordered table-dark" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th scope="col">Lead ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Mobile/ <br> Alternate/ <br> Whatsapp/ <br> Email</th>
+                                <th scope="col"> State/ City </th>
+                                <th scope="col"> Interested in</th>
+                                <th scope="col"> Source</th>
+                                <th scope="col"> Status</th>
+                                <th scope="col"> DOR</th>
+                                <th scope="col"> Summary DOR</th>
+                                <th scope="col"> Caller </th>
+                            </tr>
+                        </thead>
+                        <?php
+                if($query_run)
+                {
+                    foreach($query_run as $row)
+                    {
+            ?>
+                        <tbody>
+                            <tr>
+                                <td> <?php echo $row['Lead_ID']; ?> </td>
+                                <td> <?php echo $row['name']; ?> </td>
+                                <td> <?php echo $row['Mobile']; ?> <br><?php echo $row['Alternate_Mobile']; ?> <br><?php echo $row['Whatsapp']; ?><br><?php echo $row['Email']; ?> </td>
+                                <td> <?php echo $row['State'];?> <br><?php echo $row['City']; ?> </td>
+                                <td> <?php echo $row['Interested_In']; ?> </td>
+                                <td> <?php echo $row['Source']; ?> </td>
+                                <td> <?php echo $row['Status']; ?> </td>
+                                <td> <?php echo $row['DOR']; ?> </td>
+                                <td> <?php echo $row['S_DOR']; ?> </td>
+                                <td> <?php echo $row['Name']; ?> </td>
+                            </tr>
+                        </tbody>
+                        <?php           
+                    }
+                }
+                else 
+                {
+                    echo "No Record Found";
+                }
+            ?>
+    </div>
+    
+  </body>
+</html>
